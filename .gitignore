@@ -1,2 +1,5 @@
 .DS_Store
-*.wav
+env/
+__pycache__
+.vscode/
+
