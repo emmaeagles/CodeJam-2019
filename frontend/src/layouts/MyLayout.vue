@@ -37,6 +37,9 @@
             size='36px'
           />
         </div>
+        <div>
+          <p> </p>
+        </div>
         <q-btn
           color="secondary"
           class="glossy"
@@ -50,9 +53,11 @@
           <DetectedObject
             v-for="result in response_result.result"
             v-bind:key="result.id"
+            :id="result.id"
             :link='result.link'
-            :object='result.metadata.name'
-            v-bind:percentageCertainty='parseInt(result.metadata.percentage_probability)'
+            :object='result.name'
+            v-bind:percentageCertainty='parseInt(result.percentageCertainty)'
+            @child-checkbox='handleChecked'
           ></DetectedObject>
         </div>
       </q-page>
@@ -62,6 +67,15 @@
 
 <script>
 import DetectedObject from '../components/DetectedObject.vue'
+
+let remove = function (context, object) {
+  for (var i = 0; i < context.selected_objects.length; i++) {
+    if (context.selected_objects[i].id === object.id) {
+      context.selected_objects.splice(i, 1)
+    }
+  }
+}
+
 export default {
   name: 'MyLayout',
   components: {
@@ -72,7 +86,8 @@ export default {
       file: null,
       isLoading: false,
       resultFetched: false,
-      response_result: []
+      response_result: [],
+      selected_objects: []
     }
   },
   methods: {
@@ -87,15 +102,28 @@ export default {
         .then(resp => {
           this.isLoading = false
           this.resultFetched = true
-          this.response_result = resp.data
-          for (let i = 1; i <= resp.data.length; i++) {
-            this.response_result[i]['id'] = i
+          // this.response_result = resp.data
+          // this.selected_objects = resp.data
+          console.log(resp.data)
+          for (let i = 0; i < resp.data.length; i++) {
+            console.log('HERE')
+            this.response_result.push({ name: resp.data[i].metadata.name, link: resp.data[i].link, percentageCertainty: resp.data[i].metadata.percentage_probability, id: i + 1 })
+            this.selected_objects.push({ name: resp.data[i].metadata.name, link: resp.data[i].link, percentageCertainty: resp.data[i].metadata.percentage_probability, id: i + 1 })
           }
         })
         .catch(error => {
           console.log(error.resp)
           this.isLoading = false
         })
+    },
+    handleChecked: function (isChecked, object) {
+      // Adds a profile to the selected list if their box is checked
+      if (isChecked) {
+        this.selected_objects.push(object)
+      } else {
+        remove(this, object)
+      }
+      console.log(this.selected_objects)
     }
   }
 }
