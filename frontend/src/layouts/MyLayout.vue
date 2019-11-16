@@ -11,13 +11,24 @@
 
     <q-page-container>
       <q-page class="flex flex-center">
-        <q-btn
+        <!-- <q-btn
           class="glossy"
           :ripple="{ center: true }"
           color="teal"
           label="Find Your Items"
-        />
-        <q-btn
+        /> -->
+        <input
+          type="file"
+          @change="onFileSelected"
+        >
+        <!-- <q-btn
+          class="glossy"
+          :ripple="{ center: true }"
+          color="teal"
+          label="Upload"
+          @click="onUpload"
+        /> -->
+        <!-- <q-btn
           :loading="loading2"
           :percentage="percentage2"
           round
@@ -25,7 +36,7 @@
           class="glossy"
           @click="startComputing(2)"
           icon="cloud_upload"
-        />
+        /> -->
       </q-page>
     </q-page-container>
   </q-layout>
