@@ -31,7 +31,7 @@ export default {
     onFileChanged: function (event) {
       const file = event.target.files[0]
       const formData = new FormData()
-      formData.append('myFile', file, file.name)
+      formData.append('file', file)
       this.$axios.post('http://localhost:5000/upload', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
     }
   }
