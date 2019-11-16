@@ -11,32 +11,10 @@
 
     <q-page-container>
       <q-page class="flex flex-center">
-        <!-- <q-btn
-          class="glossy"
-          :ripple="{ center: true }"
-          color="teal"
-          label="Find Your Items"
-        /> -->
         <input
           type="file"
-          @change="onFileSelected"
+          @change="onFileChanged"
         >
-        <!-- <q-btn
-          class="glossy"
-          :ripple="{ center: true }"
-          color="teal"
-          label="Upload"
-          @click="onUpload"
-        /> -->
-        <!-- <q-btn
-          :loading="loading2"
-          :percentage="percentage2"
-          round
-          color="secondary"
-          class="glossy"
-          @click="startComputing(2)"
-          icon="cloud_upload"
-        /> -->
       </q-page>
     </q-page-container>
   </q-layout>
@@ -45,10 +23,16 @@
 <script>
 export default {
   name: 'MyLayout',
-
   data () {
     return {
-      leftDrawerOpen: false
+    }
+  },
+  methods: {
+    onFileChanged: function (event) {
+      const file = event.target.files[0]
+      const formData = new FormData()
+      formData.append('myFile', file, file.name)
+      this.$axios.post('http://localhost:5000/upload', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
     }
   }
 }
