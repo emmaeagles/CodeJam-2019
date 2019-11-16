@@ -60,6 +60,10 @@ export default {
         .then(resp => {
           this.isLoading = false
         })
+        .catch(error => {
+          console.log(error.resp)
+          this.isLoading = false
+        })
     }
   }
 }
