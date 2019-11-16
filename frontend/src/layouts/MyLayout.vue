@@ -15,6 +15,12 @@
           type="file"
           @change="onFileChanged"
         >
+        <q-btn
+              color="secondary"
+              class="glossy"
+              @click="sendFile"
+              label="Evaluate"
+        />
       </q-page>
     </q-page-container>
   </q-layout>
@@ -25,14 +31,17 @@ export default {
   name: 'MyLayout',
   data () {
     return {
+      file: null
     }
   },
   methods: {
     onFileChanged: function (event) {
-      const file = event.target.files[0]
+      this.file = event.target.files[0]
+    },
+    sendFile: function (event) {
       const formData = new FormData()
-      formData.append('file', file)
-      this.$axios.post('http://localhost:5000/upload', file, { headers: { 'Content-Type': 'multipart/form-data' } })
+      formData.append('file', this.file)
+      this.$axios.post('http://localhost:5000/upload', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
     }
   }
 }
