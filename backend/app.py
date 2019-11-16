@@ -5,6 +5,8 @@ from flask_cors import CORS
 from image_search import reverse_image_search
 from object_detection import detect_objects
 from werkzeug.utils import secure_filename
+from price_search import price_search
+from default_prices import default_prices
 
 UPLOAD_FOLDER = "./images"
 ALLOWED_EXTENSIONS = {"txt", "pdf", "png", "jpg", "jpeg", "gif"}
@@ -40,7 +42,10 @@ def get_product_link():
     # do a reverse image search on each detected object
     for object_tuple in detected_objects:
         link = reverse_image_search(object_tuple[1])
-        object_tuples.append({"metadata": object_tuple[0], "link": link})
+        price = price_search(link)
+        if price is None:
+            price = default_prices.get(object_tuple[0]["name"])
+        object_tuples.append({"metadata": object_tuple[0], "link": link, "price": price})
 
         # delete file after we're done with it
         os.remove(object_tuple[1])
