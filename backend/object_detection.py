@@ -63,7 +63,7 @@ def detect_objects(image_path):
     )
 
     file_paths = []
-    for _eachObject, eachObjectPath in zip(detections, objects_path):
+    for eachObject, eachObjectPath in zip(detections, objects_path):
         # print(
         #     eachObject["name"],
         #     " : ",
@@ -72,7 +72,7 @@ def detect_objects(image_path):
         #     eachObject["box_points"],
         # )
         # print("Object's image saved in " + eachObjectPath)
-        file_paths.append(eachObjectPath)
+        file_paths.append((eachObject, eachObjectPath))
         # print("--------------------------------")
 
     return file_paths

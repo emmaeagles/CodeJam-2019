@@ -18,6 +18,11 @@ retailers = {
     "wayfair.c",
     "homedepot.c",
     "rona.c",
+    "hayneedle.c",
+    "furniture.c",
+    "overstock.c",
+    "ashleyhomestore.c",
+    "article.c"
 }
 
 # takes in a path to an image and returns the first product result from that image
