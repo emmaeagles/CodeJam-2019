@@ -13,28 +13,63 @@
       <q-page class="flex column flex-center">
         <input
           type="file"
+          style="margin-top: 50px"
           @change="onFileChanged"
         >
-        <div id="results">
+        <div>
           <p> </p>
         </div>
         <q-btn
-              color="secondary"
-              class="glossy"
-              @click="sendFile"
-              label="UPLOAD"
+          Updated
+          upstream
+          color="secondary"
+          class="glossy"
+          @click="sendFile"
+          label="UPLOAD"
         />
+        <div>
+          <p> </p>
+        </div>
+        <div v-if="isLoading==true">
+          <component
+            :is="`q-spinner-hourglass`"
+            color='secondary'
+            size='36px'
+          />
+        </div>
+        <q-btn
+          color="secondary"
+          class="glossy"
+          @click="sendFile"
+          label="Evaluate"
+        />
+        <div v-if="resultFetched==true">
+          <DetectedObject
+            v-for="result in response_result"
+            v-bind:key="result.id"
+            :link='result.link'
+            :object='result.metadata.name'
+            v-bind:percentageCertainty='parseInt(result.metadata.percentage_probability)'
+          ></DetectedObject>
+        </div>
       </q-page>
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
+import DetectedObject from '../components/DetectedObject.vue'
 export default {
   name: 'MyLayout',
+  components: {
+    DetectedObject
+  },
   data () {
     return {
-      file: null
+      file: null,
+      isLoading: false,
+      resultFetched: false,
+      response_result: []
     }
   },
   methods: {
@@ -42,9 +77,22 @@ export default {
       this.file = event.target.files[0]
     },
     sendFile: function (event) {
+      this.isLoading = true
       const formData = new FormData()
       formData.append('file', this.file)
       this.$axios.post('http://localhost:5000/upload', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+        .then(resp => {
+          this.isLoading = false
+          this.resultFetched = true
+          this.response_result = resp.data
+          for (let i = 1; i <= resp.data.length; i++) {
+            this.response_result[i]['id'] = i
+          }
+        })
+        .catch(error => {
+          console.log(error.resp)
+          this.isLoading = false
+        })
     }
   }
 }
