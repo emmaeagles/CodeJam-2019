@@ -44,8 +44,11 @@
           label="Evaluate"
         />
         <div v-if="resultFetched==true">
+          <p style="text-align: center; margin-top: 20px">
+            <img width="700" v-bind:src="'data:image/jpg;base64,' + response_result.file_encoded">
+          </p>
           <DetectedObject
-            v-for="result in response_result"
+            v-for="result in response_result.result"
             v-bind:key="result.id"
             :link='result.link'
             :object='result.metadata.name'
