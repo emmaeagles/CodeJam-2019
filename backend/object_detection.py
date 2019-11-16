@@ -58,7 +58,7 @@ def detect_objects(image_path):
         custom_objects=custom_objects,
         input_image=os.path.join(execution_path, image_path),
         output_image_path=os.path.join(execution_path, "imagenew.jpg"),
-        minimum_percentage_probability=30,
+        minimum_percentage_probability=30.0,
         extract_detected_objects=True,
     )
 

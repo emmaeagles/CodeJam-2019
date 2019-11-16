@@ -4,3 +4,4 @@ __pycache__
 .vscode/
 *.h5
 *.jpg
+*.pyc
