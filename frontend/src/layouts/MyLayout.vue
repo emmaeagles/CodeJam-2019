@@ -15,7 +15,7 @@
           type="file"
           @change="onFileChanged"
         >
-        <div id="results">
+        <div>
           <p> </p>
         </div>
         <q-btn
@@ -24,6 +24,16 @@
               @click="sendFile"
               label="UPLOAD"
         />
+        <div>
+          <p> </p>
+        </div>
+        <div v-if="isLoading==true">
+            <component
+            :is="`q-spinner-hourglass`"
+            color='secondary'
+            size= '36px'
+          />
+        </div>
       </q-page>
     </q-page-container>
   </q-layout>
@@ -34,7 +44,8 @@ export default {
   name: 'MyLayout',
   data () {
     return {
-      file: null
+      file: null,
+      isLoading: false
     }
   },
   methods: {
@@ -42,9 +53,13 @@ export default {
       this.file = event.target.files[0]
     },
     sendFile: function (event) {
+      this.isLoading = true
       const formData = new FormData()
       formData.append('file', this.file)
       this.$axios.post('http://localhost:5000/upload', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+        .then(resp => {
+          this.isLoading = false
+        })
     }
   }
 }
