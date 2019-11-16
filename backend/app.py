@@ -1,4 +1,5 @@
 import os
+import base64
 from flask import Flask, jsonify, request, abort, make_response
 from flask_cors import CORS
 from image_search import reverse_image_search
@@ -32,16 +33,19 @@ def get_product_link():
     # returns a tuple: (OBJECT, FILE_PATH)
     detected_objects = detect_objects(file_path)
 
-    links = []
+    object_tuples = []
+    f = open('./imagenew.jpg', 'rb')
+    encoded_image = base64.b64encode(f.read())
+    
     # do a reverse image search on each detected object
     for object_tuple in detected_objects:
         link = reverse_image_search(object_tuple[1])
-        links.append({"metadata": object_tuple[0], "link": link})
+        object_tuples.append({"metadata": object_tuple[0], "link": link})
 
         # delete file after we're done with it
         os.remove(object_tuple[1])
 
-    return jsonify(links)
+    return jsonify({'file_encoded': encoded_image, 'result': object_tuples})
 
 
 if __name__ == "__main__":
