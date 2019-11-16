@@ -10,11 +10,14 @@
     </q-header>
 
     <q-page-container>
-      <q-page class="flex flex-center">
+      <q-page class="flex column flex-center">
         <input
           type="file"
           @change="onFileChanged"
         >
+        <div id="results">
+          <p> </p>
+        </div>
         <q-btn
               color="secondary"
               class="glossy"
