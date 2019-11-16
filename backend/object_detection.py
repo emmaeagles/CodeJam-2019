@@ -62,13 +62,17 @@ def detect_objects(image_path):
         extract_detected_objects=True,
     )
 
-    for eachObject, eachObjectPath in zip(detections, objects_path):
-        print(
-            eachObject["name"],
-            " : ",
-            eachObject["percentage_probability"],
-            " : ",
-            eachObject["box_points"],
-        )
-        print("Object's image saved in " + eachObjectPath)
-        print("--------------------------------")
+    file_paths = []
+    for _eachObject, eachObjectPath in zip(detections, objects_path):
+        # print(
+        #     eachObject["name"],
+        #     " : ",
+        #     eachObject["percentage_probability"],
+        #     " : ",
+        #     eachObject["box_points"],
+        # )
+        # print("Object's image saved in " + eachObjectPath)
+        file_paths.append(eachObjectPath)
+        # print("--------------------------------")
+
+    return file_paths
