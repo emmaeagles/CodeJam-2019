@@ -24,7 +24,11 @@ def get_product_link():
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
 
-    link = reverse_image_search("./images/{}".format(filename))
+    file_path = "./images/{}".format(filename)
+    link = reverse_image_search(file_path)
+
+    # delete file after we're done with it
+    os.remove(file_path)
 
     return link
 

@@ -16,11 +16,13 @@ retailers = {
     "bestbuy.c",
     "chapters.c",
     "wayfair.c",
+    "homedepot.c",
+    "rona.c",
 }
 
 # takes in a path to an image and returns the first product result from that image
 def reverse_image_search(image_path):
-    # add header
+    # add User-Agent header
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36"
     }
