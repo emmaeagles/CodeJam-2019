@@ -22,7 +22,7 @@
               color="secondary"
               class="glossy"
               @click="sendFile"
-              label="Evaluate"
+              label="UPLOAD"
         />
       </q-page>
     </q-page-container>
