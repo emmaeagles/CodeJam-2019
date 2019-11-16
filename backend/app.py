@@ -1,6 +1,7 @@
 import os
 from flask import Flask, jsonify, request, abort, make_response
 from image_search import reverse_image_search
+from object_detection import detect_objects
 from werkzeug.utils import secure_filename
 
 UPLOAD_FOLDER = "./images"
@@ -25,12 +26,19 @@ def get_product_link():
         file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
 
     file_path = "./images/{}".format(filename)
-    link = reverse_image_search(file_path)
+    # detect all objects in original image
+    detected_object_paths = detect_objects(file_path)
 
-    # delete file after we're done with it
-    os.remove(file_path)
+    links = []
+    # do a reverse image search on each detected object
+    for image_path in detected_object_paths:
+        link = reverse_image_search(image_path)
+        links.append(link)
 
-    return link
+        # delete file after we're done with it
+        os.remove(image_path)
+
+    return jsonify(links)
 
 
 if __name__ == "__main__":

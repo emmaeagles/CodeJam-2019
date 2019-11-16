@@ -58,17 +58,21 @@ def detect_objects(image_path):
         custom_objects=custom_objects,
         input_image=os.path.join(execution_path, image_path),
         output_image_path=os.path.join(execution_path, "imagenew.jpg"),
-        minimum_percentage_probability=30,
+        minimum_percentage_probability=30.0,
         extract_detected_objects=True,
     )
 
-    for eachObject, eachObjectPath in zip(detections, objects_path):
-        print(
-            eachObject["name"],
-            " : ",
-            eachObject["percentage_probability"],
-            " : ",
-            eachObject["box_points"],
-        )
-        print("Object's image saved in " + eachObjectPath)
-        print("--------------------------------")
+    file_paths = []
+    for _eachObject, eachObjectPath in zip(detections, objects_path):
+        # print(
+        #     eachObject["name"],
+        #     " : ",
+        #     eachObject["percentage_probability"],
+        #     " : ",
+        #     eachObject["box_points"],
+        # )
+        # print("Object's image saved in " + eachObjectPath)
+        file_paths.append(eachObjectPath)
+        # print("--------------------------------")
+
+    return file_paths
