@@ -11,49 +11,58 @@
 
 <q-page id="whiteCard">
     <q-page-container>
-      <q-page>
-        <div id="plsCenter">
-          <input
-            type="file"
-            style="margin-top: 50px"
-            @change="onFileChanged"
-          >
-          <div>
-            <p> </p>
-          </div>
-          <q-btn
-            Updated
-            upstream
-            color="secondary"
-            class="glossy"
-            @click="sendFile"
-            label="UPLOAD"
+      <q-page class="flex column flex-center">
+        <input
+          type="file"
+          style="margin-top: 50px; margin-bottom: 20px"
+          @change="onFileChanged"
+        >
+        <q-btn
+          Updated
+          upstream
+          color="secondary"
+          class="glossy"
+          @click="sendFile"
+          label="UPLOAD"
+        />
+        <div>
+          <p> </p>
+        </div>
+        <div v-if="isLoading==true">
+          <component
+            :is="`q-spinner-hourglass`"
+            color='secondary'
+            size='36px'
           />
-          <div>
-            <p> </p>
-          </div>
-          <div v-if="isLoading==true">
-            <component
-              :is="`q-spinner-hourglass`"
-              color='secondary'
-              size='36px'
+        </div>
+        <div>
+          <p> </p>
+        </div>
+        <div v-if="resultFetched==true">
+          <p style="text-align: center; margin-top: 20px">
+            <img
+              width="600"
+              v-bind:src="'data:image/jpg;base64,' + encoded_file"
+            >
+          </p>
+          <p style="text-align: center;">
+            <q-btn
+              color="secondary"
+              class="glossy"
+              @click="sendFile"
+              label="Evaluate"
             />
-          </div>
-          <q-btn
-            color="secondary"
-            class="glossy"
-            @click="sendFile"
-            label="Evaluate"
-          />
-          <div v-if="resultFetched==true">
-            <DetectedObject
-              v-for="result in response_result"
-              v-bind:key="result.id"
-              :link='result.link'
-              :object='result.metadata.name'
-              v-bind:percentageCertainty='parseInt(result.metadata.percentage_probability)'
-            ></DetectedObject>
-          </div>
+          </p>
+
+          <DetectedObject
+            v-for="result in response_result"
+            v-bind:key="result.id"
+            :id="result.id"
+            :link='result.link'
+            :object='result.name'
+            v-bind:percentageCertainty='parseInt(result.percentageCertainty)'
+            @child-checkbox='handleChecked'
+          ></DetectedObject>
         </div>
       </q-page>
     </q-page-container>
@@ -63,6 +72,15 @@
 
 <script>
 import DetectedObject from '../components/DetectedObject.vue'
+
+let remove = function (context, object) {
+  for (var i = 0; i < context.selected_objects.length; i++) {
+    if (context.selected_objects[i].id === object.id) {
+      context.selected_objects.splice(i, 1)
+    }
+  }
+}
+
 export default {
   name: 'MyLayout',
   components: {
@@ -73,7 +91,9 @@ export default {
       file: null,
       isLoading: false,
       resultFetched: false,
-      response_result: []
+      response_result: [],
+      encoded_file: '',
+      selected_objects: []
     }
   },
   methods: {
@@ -88,15 +108,29 @@ export default {
         .then(resp => {
           this.isLoading = false
           this.resultFetched = true
-          this.response_result = resp.data
-          for (let i = 1; i <= resp.data.length; i++) {
-            this.response_result[i]['id'] = i
+          // this.response_result = resp.data
+          // this.selected_objects = resp.data
+          this.encoded_file = resp.data.file_encoded
+          console.log(resp.data.result)
+          for (let i = 0; i < resp.data.result.length; i++) {
+            console.log('HERE')
+            this.response_result.push({ name: resp.data.result[i].metadata.name, link: resp.data.result[i].link, percentageCertainty: resp.data.result[i].metadata.percentage_probability, id: i + 1 })
+            this.selected_objects.push({ name: resp.data.result[i].metadata.name, link: resp.data.result[i].link, percentageCertainty: resp.data.result[i].metadata.percentage_probability, id: i + 1 })
           }
         })
         .catch(error => {
           console.log(error.resp)
           this.isLoading = false
         })
+    },
+    handleChecked: function (isChecked, object) {
+      // Adds a profile to the selected list if their box is checked
+      if (isChecked) {
+        this.selected_objects.push(object)
+      } else {
+        remove(this, object)
+      }
+      console.log(this.selected_objects)
     }
   }
 }
