@@ -21,9 +21,10 @@
           style="padding: 25px; width: 900px; margin: 50px"
           class="flex column flex-center"
         >
+        <h6 class="text-secondary"><strong>Upload Your Photo Here:</strong></h6>
           <input
             type="file"
-            style="margin-top: 50px; margin-bottom: 20px"
+            style="margin-bottom: 20px"
             @change="onFileChanged"
           >
           <q-btn
