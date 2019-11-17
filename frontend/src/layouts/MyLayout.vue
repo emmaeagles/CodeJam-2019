@@ -13,12 +13,9 @@
       <q-page class="flex column flex-center">
         <input
           type="file"
-          style="margin-top: 50px"
+          style="margin-top: 50px; margin-bottom: 20px"
           @change="onFileChanged"
         >
-        <div>
-          <p> </p>
-        </div>
         <q-btn
           Updated
           upstream
@@ -40,18 +37,24 @@
         <div>
           <p> </p>
         </div>
-        <q-btn
-          color="secondary"
-          class="glossy"
-          @click="sendFile"
-          label="Evaluate"
-        />
         <div v-if="resultFetched==true">
           <p style="text-align: center; margin-top: 20px">
-            <img width="700" v-bind:src="'data:image/jpg;base64,' + response_result.file_encoded">
+            <img
+              width="600"
+              v-bind:src="'data:image/jpg;base64,' + encoded_file"
+            >
           </p>
+          <p style="text-align: center;">
+            <q-btn
+              color="secondary"
+              class="glossy"
+              @click="sendFile"
+              label="Evaluate"
+            />
+          </p>
+
           <DetectedObject
-            v-for="result in response_result.result"
+            v-for="result in response_result"
             v-bind:key="result.id"
             :id="result.id"
             :link='result.link'
@@ -87,6 +90,7 @@ export default {
       isLoading: false,
       resultFetched: false,
       response_result: [],
+      encoded_file: '',
       selected_objects: []
     }
   },
@@ -104,11 +108,12 @@ export default {
           this.resultFetched = true
           // this.response_result = resp.data
           // this.selected_objects = resp.data
-          console.log(resp.data)
-          for (let i = 0; i < resp.data.length; i++) {
+          this.encoded_file = resp.data.file_encoded
+          console.log(resp.data.result)
+          for (let i = 0; i < resp.data.result.length; i++) {
             console.log('HERE')
-            this.response_result.push({ name: resp.data[i].metadata.name, link: resp.data[i].link, percentageCertainty: resp.data[i].metadata.percentage_probability, id: i + 1 })
-            this.selected_objects.push({ name: resp.data[i].metadata.name, link: resp.data[i].link, percentageCertainty: resp.data[i].metadata.percentage_probability, id: i + 1 })
+            this.response_result.push({ name: resp.data.result[i].metadata.name, link: resp.data.result[i].link, percentageCertainty: resp.data.result[i].metadata.percentage_probability, id: i + 1 })
+            this.selected_objects.push({ name: resp.data.result[i].metadata.name, link: resp.data.result[i].link, percentageCertainty: resp.data.result[i].metadata.percentage_probability, id: i + 1 })
           }
         })
         .catch(error => {
