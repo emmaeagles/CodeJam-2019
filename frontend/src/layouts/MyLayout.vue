@@ -94,7 +94,7 @@ export default {
       response_result: [],
       encoded_file: '',
       selected_objects: [],
-      total_amount = 0
+      total_amount: 0
     }
   },
   methods: {
@@ -134,10 +134,10 @@ export default {
       // Adds a profile to the selected list if their box is checked
       if (isChecked) {
         this.selected_objects.push(object)
-        total_amount = total_amount + parseFloat(object.price).toFixed(2)
+        this.total_amount += parseFloat(object.price).toFixed(2)
       } else {
         remove(this, object)
-        total_amount = total - parseFloat(object.price).toFixed(2)
+        this.total_amount -= parseFloat(object.price).toFixed(2)
       }
       console.log(this.selected_objects)
     }
@@ -146,7 +146,7 @@ export default {
 </script>
 
 <style scoped>
-#whiteCard {
+#background {
   background-image: url("../assets/background.jpeg");
   /* background-color: white;
   margin-top: 10%;
