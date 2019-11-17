@@ -145,7 +145,7 @@ export default {
 </script>
 
 <style scoped>
-#whiteCard {
+#background {
   background-image: url("../assets/background.jpeg");
   align-content: center;
 }
