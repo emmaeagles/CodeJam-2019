@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.0.1",
   "description": "A Quasar Framework app",
-  "productName": "Quasar App",
+  "productName": "Home Insurance Photo Analyzer",
   "cordovaId": "org.cordova.quasar.app",
   "capacitorId": "",
   "author": "kraglalbert <albert.kragl@mail.mcgill.ca>",

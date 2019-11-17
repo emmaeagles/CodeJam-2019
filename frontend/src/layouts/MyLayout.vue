@@ -21,10 +21,10 @@
           style="padding: 25px; width: 900px; margin: 50px"
           class="flex column flex-center"
         >
-        <h6 class="text-secondary"><strong>Upload Your Photo Here:</strong></h6>
+          <h6 class="text-secondary"><strong>Upload Your Photo Here:</strong></h6>
           <input
             type="file"
-            style="margin-bottom: 20px"
+            style="margin-bottom: 20px; padding-left: 95px;"
             @change="onFileChanged"
           >
           <q-btn
@@ -109,10 +109,10 @@ export default {
       this.file = event.target.files[0]
       this.response_result = []
       this.selected_objects = []
-      this.total = 0
+      this.total_amount = 0
     },
     sendFile: function (event) {
-      this.total = 0
+      this.total_amount = 0
       this.response_result = []
       this.selected_objects = []
       this.isLoading = true
@@ -127,7 +127,6 @@ export default {
 
           for (let i = 0; i < resp.data.result.length; i++) {
             this.total_amount += parseFloat(resp.data.result[i].price.substr(1))
-            console.log(this.total_amount)
             this.response_result.push({ name: resp.data.result[i].metadata.name, link: resp.data.result[i].link, percentageCertainty: resp.data.result[i].metadata.percentage_probability, price: resp.data.result[i].price, id: i + 1 })
             this.selected_objects.push({ name: resp.data.result[i].metadata.name, link: resp.data.result[i].link, percentageCertainty: resp.data.result[i].metadata.percentage_probability, price: resp.data.result[i].price, id: i + 1 })
           }

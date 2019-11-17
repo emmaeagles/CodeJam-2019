@@ -1,6 +1,6 @@
 # CodeJam 2019: Home Insurance Photo Analyzer
 
-Built by Albert Kragl, Celine Huang, Emma Eagles and Paul Hooley :)
+Built by [Albert Kragl](https://github.com/kraglalbert), [Celine Huang](https://github.com/celinehuang), [Emma Eagles](https://github.com/emmaeagles) and [Paul Hooley](https://github.com/PaulHooley) :)
 
 ## Backend
 

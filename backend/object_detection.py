@@ -1,7 +1,7 @@
 from imageai.Detection import ObjectDetection
 import os
 
-
+# detect objects in the specified image
 def detect_objects(image_path):
     execution_path = os.getcwd()
 
@@ -64,15 +64,6 @@ def detect_objects(image_path):
 
     file_paths = []
     for eachObject, eachObjectPath in zip(detections, objects_path):
-        # print(
-        #     eachObject["name"],
-        #     " : ",
-        #     eachObject["percentage_probability"],
-        #     " : ",
-        #     eachObject["box_points"],
-        # )
-        # print("Object's image saved in " + eachObjectPath)
         file_paths.append((eachObject, eachObjectPath))
-        # print("--------------------------------")
 
     return file_paths
