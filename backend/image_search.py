@@ -8,7 +8,6 @@ from bs4 import BeautifulSoup
 from time import sleep
 
 retailers = {
-    "amazon.c",
     "ikea.c",
     "apple.c",
     "walmart.c",
