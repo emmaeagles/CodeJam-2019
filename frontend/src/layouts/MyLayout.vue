@@ -103,11 +103,13 @@ export default {
   },
   methods: {
     onFileChanged: function (event) {
-      this.file = event.target.files[0],
-      this.response_result = [],
+      this.file = event.target.files[0]
+      this.response_result = []
       this.selected_objects = []
     },
     sendFile: function (event) {
+      this.response_result = []
+      this.selected_objects = []
       this.isLoading = true
       const formData = new FormData()
       formData.append('file', this.file)
