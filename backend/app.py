@@ -42,10 +42,13 @@ def get_product_link():
     # do a reverse image search on each detected object
     for object_tuple in detected_objects:
         link = reverse_image_search(object_tuple[1])
-        price = price_search(link)
-        if price is None:
-            price = default_prices.get(object_tuple[0]["name"])
-        object_tuples.append({"metadata": object_tuple[0], "link": link, "price": price})
+        if link is not None and link != "":
+            price = price_search(link)
+            if price is None:
+                price = default_prices.get(object_tuple[0]["name"])
+            object_tuples.append({"metadata": object_tuple[0], "link": link, "price": price})
+        else:
+            object_tuples.append({"metadata": object_tuple[0], "link": link, "price": ""})
 
         # delete file after we're done with it
         os.remove(object_tuple[1])
