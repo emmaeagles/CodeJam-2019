@@ -50,7 +50,7 @@ def get_product_link():
         # delete file after we're done with it
         os.remove(object_tuple[1])
 
-    return jsonify({'file_encoded': encoded_image, 'result': object_tuples})
+    return jsonify({'file_encoded': encoded_image.decode("utf-8"), 'result': object_tuples})
 
 
 if __name__ == "__main__":

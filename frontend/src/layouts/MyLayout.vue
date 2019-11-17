@@ -1,71 +1,76 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
-      <q-toolbar>
+      <q-toolbar class="bg-white text-blue">
         <q-toolbar-title>
-          HIPA - Home Insurance Photo Analyzer
+          <strong>HIPA - Home Insurance Photo Analyzer</strong>
         </q-toolbar-title>
         <div>CodeJam 2019</div>
       </q-toolbar>
     </q-header>
 
-<q-page id="whiteCard">
-    <q-page-container>
-      <q-page class="flex column flex-center">
-        <input
-          type="file"
-          style="margin-top: 50px; margin-bottom: 20px"
-          @change="onFileChanged"
-        >
-        <q-btn
-          Updated
-          upstream
-          color="secondary"
-          class="glossy"
-          @click="sendFile"
-          label="UPLOAD"
-        />
-        <div>
-          <p> </p>
-        </div>
-        <div v-if="isLoading==true">
-          <component
-            :is="`q-spinner-hourglass`"
-            color='secondary'
-            size='36px'
-          />
-        </div>
-        <div>
-          <p> </p>
-        </div>
-        <div v-if="resultFetched==true">
-          <p style="text-align: center; margin-top: 20px">
-            <img
-              width="600"
-              v-bind:src="'data:image/jpg;base64,' + encoded_file"
+    <q-page id="whiteCard">
+      <q-page-container>
+        <q-page class="flex column flex-center">
+          <q-card
+            style="padding: 25px; width: 900px; margin: 50px"
+            class="flex column flex-center"
+          >
+            <input
+              type="file"
+              style="margin-top: 50px; margin-bottom: 20px"
+              @change="onFileChanged"
             >
-          </p>
-          <p style="text-align: center;">
             <q-btn
+              Updated
+              upstream
               color="secondary"
               class="glossy"
               @click="sendFile"
-              label="Evaluate"
+              label="UPLOAD"
             />
-          </p>
+            <div>
+              <p> </p>
+            </div>
+            <div v-if="isLoading==true">
+              <component
+                :is="`q-spinner-hourglass`"
+                color='secondary'
+                size='36px'
+              />
+            </div>
+            <div>
+              <p> </p>
+            </div>
+            <div v-if="resultFetched==true">
+              <p style="text-align: center; margin-top: 20px">
+                <img
+                  width="600"
+                  v-bind:src="'data:image/jpg;base64,' + encoded_file"
+                >
+              </p>
+              <p style="text-align: center;">
+                <q-btn
+                  color="secondary"
+                  class="glossy"
+                  @click="sendFile"
+                  label="Evaluate"
+                />
+              </p>
 
-          <DetectedObject
-            v-for="result in response_result"
-            v-bind:key="result.id"
-            :id="result.id"
-            :link='result.link'
-            :object='result.name'
-            v-bind:percentageCertainty='parseInt(result.percentageCertainty)'
-            @child-checkbox='handleChecked'
-          ></DetectedObject>
-        </div>
-      </q-page>
-    </q-page-container>
+              <DetectedObject
+                v-for="result in response_result"
+                v-bind:key="result.id"
+                :id="result.id"
+                :link='result.link'
+                :object='result.name'
+                v-bind:percentageCertainty='parseInt(result.percentageCertainty)'
+                @child-checkbox='handleChecked'
+              ></DetectedObject>
+            </div>
+          </q-card>
+        </q-page>
+      </q-page-container>
     </q-page>
   </q-layout>
 </template>
@@ -138,14 +143,12 @@ export default {
 
 <style scoped>
 #whiteCard {
-  background-color: white;
+  background-image: url("../assets/background.jpeg");
+  /* background-color: white;
   margin-top: 10%;
   margin-right: 25%;
   margin-left: 25%;
-  padding-top: 0px;
-  align-content: center;
-}
-#plsCenter {
+  padding-top: 0px; */
   align-content: center;
 }
 </style>
