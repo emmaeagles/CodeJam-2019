@@ -48,7 +48,7 @@ def get_product_link():
                 price = default_prices.get(object_tuple[0]["name"])
             object_tuples.append({"metadata": object_tuple[0], "link": link, "price": price})
         else:
-            object_tuples.append({"metadata": object_tuple[0], "link": link, "price": ""})
+            object_tuples.append({"metadata": object_tuple[0], "link": link, "price": default_prices.get(object_tuple[0]["name"])})
 
         # delete file after we're done with it
         os.remove(object_tuple[1])

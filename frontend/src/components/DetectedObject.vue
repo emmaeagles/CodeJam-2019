@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-card style="min-width: 750px; margin: 20px;">
+    <q-card style="width: 750px; margin: 20px;">
       <q-card-section class="bg-white text-black">
         <div class="text-h6">Object: {{ object }}</div>
         <p>Link: <a
@@ -8,7 +8,7 @@
             target="_blank"
           >{{ link }}</a></p>
         <p>Percentage Certainty: {{ percentageCertainty }}%</p>
-        <p>Price: ${{ price }}</p>
+        <p>Price: {{ price }}</p>
         <q-checkbox
           keep-color
           v-model="checked"
