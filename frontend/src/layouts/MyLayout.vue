@@ -53,13 +53,15 @@
               <DetectedObject
                 v-for="result in response_result"
                 v-bind:key="result.id"
-                :price="result.price"
                 :id="result.id"
                 :link='result.link'
                 :object='result.name'
                 v-bind:percentageCertainty='parseInt(result.percentageCertainty)'
                 @child-checkbox='handleChecked'
               ></DetectedObject>
+              <p>
+                Total: {{ total_amount }}
+              </p>
             </div>
           </q-card>
         </q-page>
@@ -91,7 +93,8 @@ export default {
       resultFetched: false,
       response_result: [],
       encoded_file: '',
-      selected_objects: []
+      selected_objects: [],
+      total_amount = 0
     }
   },
   methods: {
@@ -99,8 +102,10 @@ export default {
       this.file = event.target.files[0]
       this.response_result = []
       this.selected_objects = []
+      this.total = 0
     },
     sendFile: function (event) {
+      this.total = 0
       this.response_result = []
       this.selected_objects = []
       this.isLoading = true
@@ -110,12 +115,14 @@ export default {
         .then(resp => {
           this.isLoading = false
           this.resultFetched = true
+          // this.response_result = resp.data
+          // this.selected_objects = resp.data
           this.encoded_file = resp.data.file_encoded
           console.log(resp.data.result)
           for (let i = 0; i < resp.data.result.length; i++) {
             console.log('HERE')
-            this.response_result.push({ name: resp.data.result[i].metadata.name, link: resp.data.result[i].link, percentageCertainty: resp.data.result[i].metadata.percentage_probability, price: resp.data.result[i].price, id: i + 1 })
-            this.selected_objects.push({ name: resp.data.result[i].metadata.name, link: resp.data.result[i].link, percentageCertainty: resp.data.result[i].metadata.percentage_probability, price: resp.data.result[i].price, id: i + 1 })
+            this.response_result.push({ name: resp.data.result[i].metadata.name, link: resp.data.result[i].link, percentageCertainty: resp.data.result[i].metadata.percentage_probability, id: i + 1 })
+            this.selected_objects.push({ name: resp.data.result[i].metadata.name, link: resp.data.result[i].link, percentageCertainty: resp.data.result[i].metadata.percentage_probability, id: i + 1 })
           }
         })
         .catch(error => {
@@ -127,8 +134,10 @@ export default {
       // Adds a profile to the selected list if their box is checked
       if (isChecked) {
         this.selected_objects.push(object)
+        total_amount = total_amount + parseFloat(object.price).toFixed(2)
       } else {
         remove(this, object)
+        total_amount = total - parseFloat(object.price).toFixed(2)
       }
       console.log(this.selected_objects)
     }
@@ -137,8 +146,13 @@ export default {
 </script>
 
 <style scoped>
-#background {
+#whiteCard {
   background-image: url("../assets/background.jpeg");
+  /* background-color: white;
+  margin-top: 10%;
+  margin-right: 25%;
+  margin-left: 25%;
+  padding-top: 0px; */
   align-content: center;
 }
 </style>
