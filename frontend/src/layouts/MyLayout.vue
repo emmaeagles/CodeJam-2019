@@ -9,7 +9,7 @@
       </q-toolbar>
     </q-header>
 
-    <q-page id="whiteCard">
+    <q-page id="background">
       <q-page-container>
         <q-page class="flex column flex-center">
           <q-card
@@ -53,6 +53,7 @@
               <DetectedObject
                 v-for="result in response_result"
                 v-bind:key="result.id"
+                :price="result.price"
                 :id="result.id"
                 :link='result.link'
                 :object='result.name'
@@ -109,14 +110,12 @@ export default {
         .then(resp => {
           this.isLoading = false
           this.resultFetched = true
-          // this.response_result = resp.data
-          // this.selected_objects = resp.data
           this.encoded_file = resp.data.file_encoded
           console.log(resp.data.result)
           for (let i = 0; i < resp.data.result.length; i++) {
             console.log('HERE')
-            this.response_result.push({ name: resp.data.result[i].metadata.name, link: resp.data.result[i].link, percentageCertainty: resp.data.result[i].metadata.percentage_probability, id: i + 1 })
-            this.selected_objects.push({ name: resp.data.result[i].metadata.name, link: resp.data.result[i].link, percentageCertainty: resp.data.result[i].metadata.percentage_probability, id: i + 1 })
+            this.response_result.push({ name: resp.data.result[i].metadata.name, link: resp.data.result[i].link, percentageCertainty: resp.data.result[i].metadata.percentage_probability, price: resp.data.result[i].price, id: i + 1 })
+            this.selected_objects.push({ name: resp.data.result[i].metadata.name, link: resp.data.result[i].link, percentageCertainty: resp.data.result[i].metadata.percentage_probability, price: resp.data.result[i].price, id: i + 1 })
           }
         })
         .catch(error => {
@@ -138,13 +137,8 @@ export default {
 </script>
 
 <style scoped>
-#whiteCard {
+#background {
   background-image: url("../assets/background.jpeg");
-  /* background-color: white;
-  margin-top: 10%;
-  margin-right: 25%;
-  margin-left: 25%;
-  padding-top: 0px; */
   align-content: center;
 }
 </style>
