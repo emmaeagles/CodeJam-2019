@@ -103,7 +103,9 @@ export default {
   },
   methods: {
     onFileChanged: function (event) {
-      this.file = event.target.files[0]
+      this.file = event.target.files[0],
+      this.response_result = [],
+      this.selected_objects = []
     },
     sendFile: function (event) {
       this.isLoading = true
