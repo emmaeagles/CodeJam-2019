@@ -49,14 +49,6 @@
                   v-bind:src="'data:image/jpg;base64,' + encoded_file"
                 >
               </p>
-              <p style="text-align: center;">
-                <q-btn
-                  color="secondary"
-                  class="glossy"
-                  @click="sendFile"
-                  label="Evaluate"
-                />
-              </p>
 
               <DetectedObject
                 v-for="result in response_result"
