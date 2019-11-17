@@ -9,51 +9,55 @@
       </q-toolbar>
     </q-header>
 
+<q-page id="whiteCard">
     <q-page-container>
-      <q-page class="flex column flex-center">
-        <input
-          type="file"
-          style="margin-top: 50px"
-          @change="onFileChanged"
-        >
-        <div>
-          <p> </p>
-        </div>
-        <q-btn
-          Updated
-          upstream
-          color="secondary"
-          class="glossy"
-          @click="sendFile"
-          label="UPLOAD"
-        />
-        <div>
-          <p> </p>
-        </div>
-        <div v-if="isLoading==true">
-          <component
-            :is="`q-spinner-hourglass`"
-            color='secondary'
-            size='36px'
+      <q-page>
+        <div id="plsCenter">
+          <input
+            type="file"
+            style="margin-top: 50px"
+            @change="onFileChanged"
+          >
+          <div>
+            <p> </p>
+          </div>
+          <q-btn
+            Updated
+            upstream
+            color="secondary"
+            class="glossy"
+            @click="sendFile"
+            label="UPLOAD"
           />
-        </div>
-        <q-btn
-          color="secondary"
-          class="glossy"
-          @click="sendFile"
-          label="Evaluate"
-        />
-        <div v-if="resultFetched==true">
-          <DetectedObject
-            v-for="result in response_result"
-            v-bind:key="result.id"
-            :link='result.link'
-            :object='result.metadata.name'
-            v-bind:percentageCertainty='parseInt(result.metadata.percentage_probability)'
-          ></DetectedObject>
+          <div>
+            <p> </p>
+          </div>
+          <div v-if="isLoading==true">
+            <component
+              :is="`q-spinner-hourglass`"
+              color='secondary'
+              size='36px'
+            />
+          </div>
+          <q-btn
+            color="secondary"
+            class="glossy"
+            @click="sendFile"
+            label="Evaluate"
+          />
+          <div v-if="resultFetched==true">
+            <DetectedObject
+              v-for="result in response_result"
+              v-bind:key="result.id"
+              :link='result.link'
+              :object='result.metadata.name'
+              v-bind:percentageCertainty='parseInt(result.metadata.percentage_probability)'
+            ></DetectedObject>
+          </div>
         </div>
       </q-page>
     </q-page-container>
+    </q-page>
   </q-layout>
 </template>
 
@@ -97,3 +101,17 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+#whiteCard {
+  background-color: white;
+  margin-top: 10%;
+  margin-right: 25%;
+  margin-left: 25%;
+  padding-top: 0px;
+  align-content: center;
+}
+#plsCenter {
+  align-content: center;
+}
+</style>
