@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <q-card style="min-width: 750px; margin: 20px;">
       <q-card-section class="bg-white text-black">
         <div class="text-h6">Object: {{ object }}</div>
@@ -9,6 +8,7 @@
             target="_blank"
           >{{ link }}</a></p>
         <p>Percentage Certainty: {{ percentageCertainty }}%</p>
+        <p>Price: ${{ price }}</p>
         <q-checkbox
           keep-color
           v-model="checked"
@@ -33,11 +33,12 @@ export default {
     link: String,
     object: String,
     percentageCertainty: Number,
+    price: String,
     id: Number
   },
   methods: {
     handleChecked: function () {
-      this.$emit('child-checkbox', this.checked, { name: this.object, link: this.link, percentageCertainty: this.percentageCertainty, id: this.obj_id })
+      this.$emit('child-checkbox', this.checked, { name: this.object, link: this.link, percentageCertainty: this.percentageCertainty, price: this.price, id: this.obj_id })
     }
   }
 }
