@@ -17,7 +17,7 @@ Once the environment is activated, install dependencies:
 pip install -r /path/to/requirements.txt
 ```
 
-You will also need to install the [RetinaNet model file](https://github.com/OlafenwaMoses/ImageAI/releases/download/1.0/resnet50_coco_best_v2.0.1.h5) that will be used for object detection.
+You will also need to download the [RetinaNet model file](https://github.com/OlafenwaMoses/ImageAI/releases/download/1.0/resnet50_coco_best_v2.0.1.h5) that will be used for object detection. Once you have it downloaded, put the file in the root of the `backend` folder.
 
 If any packages are missing when you run `app.py`, install them with `pip install`. To run the backend from the `backend` folder:
 
